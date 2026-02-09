@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japan Trip Research | June/July 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.6;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #4f46e5 100%);
+            color: white;
+            padding: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        header .meta {
+            margin-top: 20px;
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+        }
+        header .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Navigation */
+        nav {
+            background: white;
+            border-bottom: 1px solid var(--gray-200);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav .nav-container {
+            display: flex;
+            gap: 4px;
+            overflow-x: auto;
+        }
+        nav button {
+            padding: 16px 24px;
+            border: none;
+            background: transparent;
+            color: var(--gray-600);
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        nav button:hover {
+            color: var(--primary);
+        }
+        nav button.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        /* Main Content */
+        main { padding: 40px 0; }
+        .section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .card h2 {
+            font-size: 1.25rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Summary Grid */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+        }
+        .summary-card .label {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .summary-card .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+        .summary-card .sub {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            margin-top: 4px;
+        }
+        
+        /* Flight Table */
+        .flight-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.875rem;
+        }
+        .flight-table th {
+            text-align: left;
+            padding: 12px 16px;
+            background: var(--gray-100);
+            font-weight: 600;
+            color: var(--gray-600);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .flight-table th:first-child { border-radius: 8px 0 0 0; }
+        .flight-table th:last-child { border-radius: 0 8px 0 0; }
+        .flight-table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--gray-200);
+            vertical-align: top;
+        }
+        .flight-table tr:hover td {
+            background: var(--gray-50);
+        }
+        .flight-table tr.best {
+            background: #f0fdf4;
+            border-left: 3px solid var(--success);
+        }
+        .flight-table tr.best:hover td {
+            background: #dcfce7;
+        }
+        
+        .dates {
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+        .days {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+        }
+        .price {
+            font-weight: 700;
+            font-size: 1.125rem;
+        }
+        .price-low { color: var(--success); }
+        .price-med { color: var(--warning); }
+        .price-high { color: var(--danger); }
+        
+        .airline-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .tag {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .tag-zip { background: #ccfbf1; color: #0f766e; }
+        .tag-ua { background: #dbeafe; color: #1e40af; }
+        .tag-ana { background: #fce7f3; color: #be185d; }
+        .tag-jal { background: #fee2e2; color: #b91c1c; }
+        
+        .weather {
+            font-size: 0.875rem;
+        }
+        .weather-rainy { color: #2563eb; }
+        .weather-hot { color: #dc2626; }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-best { background: #dcfce7; color: #166534; }
+        .badge-good { background: #fef3c7; color: #92400e; }
+        .badge-avoid { background: #fee2e2; color: #991b1b; }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        .btn-secondary {
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+        .btn-secondary:hover {
+            background: var(--gray-200);
+        }
+        
+        /* Quick Links */
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+        }
+        .quick-link {
+            display: block;
+            padding: 16px;
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--gray-800);
+            transition: all 0.2s;
+        }
+        .quick-link:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+        }
+        .quick-link strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+        .quick-link small {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+        }
+        
+        /* Info Boxes */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        .info-box h3 {
+            font-size: 1rem;
+            margin-bottom: 12px;
+            color: var(--gray-900);
+        }
+        .info-box ul {
+            padding-left: 20px;
+        }
+        .info-box li {
+            margin: 8px 0;
+            font-size: 0.9rem;
+            color: var(--gray-700);
+        }
+        
+        /* Coming Soon */
+        .coming-soon {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray-600);
+        }
+        .coming-soon .icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+        .coming-soon h3 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            color: var(--gray-800);
+        }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.75rem; }
+            .flight-table { font-size: 0.8rem; }
+            .flight-table th, .flight-table td {
+                padding: 10px;
+            }
+            .hide-mobile { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🇯🇵 Japan Trip Research</h1>
+            <div class="subtitle">Summer 2026 | SFO ↔ Tokyo | Group Planning Dashboard</div>
+            <div class="meta">
+                <div class="meta-item">📅 June - July 2026</div>
+                <div class="meta-item">✈️ Nonstop flights from SFO</div>
+                <div class="meta-item">👥 Share with friends</div>
+            </div>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="container">
+            <div class="nav-container">
+                <button class="active" onclick="showSection('flights')">✈️ Flights</button>
+                <button onclick="showSection('hotels')">🏨 Hotels</button>
+                <button onclick="showSection('itinerary')">📍 Itinerary</button>
+                <button onclick="showSection('budget')">💰 Budget</button>
+            </div>
+        </div>
+    </nav>
+    
+    <main>
+        <div class="container">
+            <!-- FLIGHTS SECTION -->
+            <div id="flights" class="section active">
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="label">Best Price</div>
+                        <div class="value price-low">$560-800</div>
+                        <div class="sub">ZIPAIR budget option</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="label">Full Service</div>
+                        <div class="value price-med">$800-950</div>
+                        <div class="sub">United/ANA/JAL</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="label">Best Dates</div>
+                        <div class="value">July 3-20</div>
+                        <div class="sub">Post-rainy season</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="label">Trip Length</div>
+                        <div class="value">9-10 days</div>
+                        <div class="sub">Fri → Sun/Mon</div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2>📅 Flight Options Matrix</h2>
+                    <table class="flight-table">
+                        <thead>
+                            <tr>
+                                <th>Depart (SFO)</th>
+                                <th>Return</th>
+                                <th class="hide-mobile">Airlines</th>
+                                <th>Price</th>
+                                <th class="hide-mobile">Weather</th>
+                                <th>Rating</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="dates">June 5 (Fri)</div>
+                                    <div class="days">Jun 14-15</div>
+                                </td>
+                                <td>NRT/HND</td>
+                                <td class="hide-mobile">
+                                    <div class="airline-tags">
+                                        <span class="tag tag-zip">ZIPAIR</span>
+                                        <span class="tag tag-ua">United</span>
+                                        <span class="tag tag-ana">ANA</span>
+                                        <span class="tag tag-jal">JAL</span>
+                                    </div>
+                                </td>
+                                <td class="price price-high">$1,100+</td>
+                                <td class="weather weather-rainy hide-mobile">Rainy season<br>19-26°C</td>
+                                <td><span class="badge badge-avoid">AVOID</span></td>
+                                <td><a href="https://www.google.com/travel/flights/search?tfs=CBwQAhooagwIAhIIL20vMGYycm0SCjIwMjYtMDYtMDVyDAgDEggvbS8wZnIyZhooagwIAxIIL20vMGZycmYSCjIwMjYtMDYtMTRyDAgCEggvbS8wZjJybVgBcAGCAQsI____________AZgBAQ&curr=USD" target="_blank" class="btn btn-secondary">Check</a></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="dates">June 12 (Fri)</div>
+                                    <div class="days">Jun 21-22</div>
+                                </td>
+                                <td>NRT/HND</td>
+                                <td class="hide-mobile">
+                                    <div class="airline-tags">
+                                        <span class="tag tag-zip">ZIPAIR</span>
+                                        <span class="tag tag-ua">United</span>
+                                        <span class="tag tag-ana">ANA</span>
+                                        <span class="tag tag-jal">JAL</span>
+                                    </div>
+                                </td>
+                                <td class="price price-high">$1,000+</td>
+                                <td class="weather weather-rainy hide-mobile">Peak rainy<br>21-28°C</td>
+                                <td><span class="badge badge-avoid">AVOID</span></td>
+                                <td><a href="https://www.google.com/travel/flights/search?tfs=CBwQAhooagwIAhIIL20vMGYycm0SCjIwMjYtMDYtMTJyDAgDEggvbS8wZnIyZhooagwIAxIIL20vMGZycmYSCjIwMjYtMDYtMjFyDAgCEggvbS8wZjJybVgBcAGCAQsI____________AZgBAQ&curr=USD" target="_blank" class="btn btn-secondary">Check</a></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="dates">June 26 (Fri)</div>
+                                    <div class="days">Jul 5-6</div>
+                                </td>
+                                <td>NRT/HND</td>
+                                <td class="hide-mobile">
+                                    <div class="airline-tags">
+                                        <span class="tag tag-zip">ZIPAIR</span>
+                                        <span class="tag tag-ua">United</span>
+                                        <span class="tag tag-ana">ANA</span>
+                                        <span class="tag tag-jal">JAL</span>
+                                    </div>
+                                </td>
+                                <td class="price price-med">$900-1,050</td>
+                                <td class="weather weather-hot hide-mobile">Heat begins<br>24-31°C</td>
+                                <td><span class="badge badge-good">OK</span></td>
+                                <td><a href="https://www.google.com/travel/flights/search?tfs=CBwQAhooagwIAhIIL20vMGYycm0SCjIwMjYtMDYtMjZyDAgDEggvbS8wZnIyZhooagwIAxIIL20vMGZycmYSCjIwMjYtMDctMDVyDAgCEggvbS8wZjJybVgBcAGCAQsI____________AZgBAQ&curr=USD" target="_blank" class="btn btn-secondary">Check</a></td>
+                            </tr>
+                            <tr class="best">
+                                <td>
+                                    <div class="dates">July 3 (Fri) ⭐</div>
+                                    <div class="days">Jul 12-13</div>
+                                </td>
+                                <td>NRT/HND</td>
+                                <td class="hide-mobile">
+                                    <div class="airline-tags">
+                                        <span class="tag tag-zip">ZIPAIR</span>
+                                        <span class="tag tag-ua">United</span>
+                                        <span class="tag tag-ana">ANA</span>
+                                        <span class="tag tag-jal">JAL</span>
+                                    </div>
+                                </td>
+                                <td class="price price-low">$560-950</td>
+                                <td class="weather weather-hot hide-mobile">Summer heat<br>25-32°C</td>
+                                <td><span class="badge badge-best">BEST</span></td>
+                                <td><a href="https://www.google.com/travel/flights/search?tfs=CBwQAhooagwIAhIIL20vMGYycm0SCjIwMjYtMDctMDNyDAgDEggvbS8wZnIyZhooagwIAxIIL20vMGZycmYSCjIwMjYtMDctMTJyDAgCEggvbS8wZjJybVgBcAGCAQsI____________AZgBAQ&curr=USD" target="_blank" class="btn btn-primary">Check</a></td>
+                            </tr>
+                            <tr class="best">
+                                <td>
+                                    <div class="dates">July 10 (Fri) ⭐</div>
+                                    <div class="days">Jul 19-20</div>
+                                </td>
+                                <td>NRT/HND</td>
+                                <td class="hide-mobile">
+                                    <div class="airline-tags">
+                                        <span class="tag tag-zip">ZIPAIR</span>
+                                        <span class="tag tag-ua">United</span>
+                                        <span class="tag tag-ana">ANA</span>
+                                        <span class="tag tag-jal">JAL</span>
+                                    </div>
+                                </td>
+                                <td class="price price-low">$560-950</td>
+                                <td class="weather weather-hot hide-mobile">Peak summer<br>26-33°C</td>
+                                <td><span class="badge badge-best">BEST</span></td>
+                                <td><a href="https://www.google.com/travel/flights/search?tfs=CBwQAhooagwIAhIIL20vMGYycm0SCjIwMjYtMDctMTByDAgDEggvbS8wZnIyZhooagwIAxIIL20vMGZycmYSCjIwMjYtMDctMTlyDAgCEggvbS8wZjJybVgBcAGCAQsI____________AZgBAQ&curr=USD" target="_blank" class="btn btn-primary">Check</a></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="dates">July 17 (Fri)</div>
+                                    <div class="days">Jul 26-27</div>
+                                </td>
+                                <td>NRT/HND</td>
+                                <td class="hide-mobile">
+                                    <div class="airline-tags">
+                                        <span class="tag tag-zip">ZIPAIR</span>
+                                        <span class="tag tag-ua">United</span>
+                                        <span class="tag tag-ana">ANA</span>
+                                        <span class="tag tag-jal">JAL</span>
+                                    </div>
+                                </td>
+                                <td class="price price-med">$850-1,000</td>
+                                <td class="weather weather-hot hide-mobile">Hottest<br>26-34°C</td>
+                                <td><span class="badge badge-good">OK</span></td>
+                                <td><a href="https://www.google.com/travel/flights/search?tfs=CBwQAhooagwIAhIIL20vMGYycm0SCjIwMjYtMDctMTdyDAgDEggvbS8wZnIyZhooagwIAxIIL20vMGZycmYSCjIwMjYtMDctMjZyDAgCEggvbS8wZjJybVgBcAGCAQsI____________AZgBAQ&curr=USD" target="_blank" class="btn btn-secondary">Check</a></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="dates">July 24 (Fri)</div>
+                                    <div class="days">Aug 2-3</div>
+                                </td>
+                                <td>NRT/HND</td>
+                                <td class="hide-mobile">
+                                    <div class="airline-tags">
+                                        <span class="tag tag-zip">ZIPAIR</span>
+                                        <span class="tag tag-ua">United</span>
+                                        <span class="tag tag-ana">ANA</span>
+                                        <span class="tag tag-jal">JAL</span>
+                                    </div>
+                                </td>
+                                <td class="price price-med">$850-1,000</td>
+                                <td class="weather weather-hot hide-mobile">Peak heat<br>26-34°C</td>
+                                <td><span class="badge badge-good">OK</span></td>
+                                <td><a href="https://www.google.com/travel/flights/search?tfs=CBwQAhooagwIAhIIL20vMGYycm0SCjIwMjYtMDctMjRyDAgDEggvbS8wZnIyZhooagwIAxIIL20vMGZycmYSCjIwMjYtMDgtMDJyDAgCEggvbS8wZjJybVgBcAGCAQsI____________AZgBAQ&curr=USD" target="_blank" class="btn btn-secondary">Check</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="card">
+                    <h2>🔗 Quick Links</h2>
+                    <div class="quick-links">
+                        <a href="https://www.zipair.net/en" target="_blank" class="quick-link">
+                            <strong>ZIPAIR</strong>
+                            <small>Budget SFO → NRT</small>
+                        </a>
+                        <a href="https://www.united.com/en-us/flights-from-san-francisco-to-tokyo" target="_blank" class="quick-link">
+                            <strong>United Airlines</strong>
+                            <small>SFO → NRT</small>
+                        </a>
+                        <a href="https://flights.ana.co.jp/en-us/flights-from-san-francisco-to-tokyo" target="_blank" class="quick-link">
+                            <strong>ANA</strong>
+                            <small>SFO → NRT</small>
+                        </a>
+                        <a href="https://www.jal.co.jp/flights/en-us/flights-from-san-francisco-to-tokyo" target="_blank" class="quick-link">
+                            <strong>JAL</strong>
+                            <small>SFO → HND</small>
+                        </a>
+                        <a href="https://www.skyscanner.com/routes/sfo/tyoa/san-francisco-international-to-tokyo.html" target="_blank" class="quick-link">
+                            <strong>Skyscanner</strong>
+                            <small>Compare all</small>
+                        </a>
+                        <a href="https://www.kayak.com/flight-routes/San-Francisco-SFO/Tokyo-TYO" target="_blank" class="quick-link">
+                            <strong>Kayak</strong>
+                            <small>Find deals</small>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2>ℹ️ Important Info</h2>
+                    <div class="info-grid">
+                        <div class="info-box">
+                            <h3>🛫 Airports (SFO → Japan)</h3>
+                            <ul>
+                                <li><strong>NRT (Narita):</strong> ZIPAIR, United, ANA — 60-90 min to Tokyo</li>
+                                <li><strong>HND (Haneda):</strong> JAL only — 30-45 min to Tokyo</li>
+                            </ul>
+                        </div>
+                        <div class="info-box">
+                            <h3>💰 Airline Guide</h3>
+                            <ul>
+                                <li><strong>ZIPAIR:</strong> Budget ~$560-700 (pay extra for bags/meals)</li>
+                                <li><strong>United:</strong> Value ~$800-900 (full service)</li>
+                                <li><strong>ANA/JAL:</strong> Premium ~$900-1000 (best service)</li>
+                            </ul>
+                        </div>
+                        <div class="info-box">
+                            <h3>🌤️ Weather</h3>
+                            <ul>
+                                <li><strong>June:</strong> Rainy season, 19-28°C, humid</li>
+                                <li><strong>July:</strong> Hot summer, 25-34°C, very humid</li>
+                                <li><strong>Typhoons:</strong> Possible July-Oct</li>
+                            </ul>
+                        </div>
+                        <div class="info-box">
+                            <h3>✅ Recommendations</h3>
+                            <ul>
+                                <li><strong>Pick:</strong> July 3 or July 10 departure</li>
+                                <li><strong>Avoid:</strong> Early June (rain + expensive)</li>
+                                <li><strong>Book:</strong> 6-8 weeks ahead for best prices</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- HOTELS SECTION -->
+            <div id="hotels" class="section">
+                <div class="coming-soon">
+                    <div class="icon">🏨</div>
+                    <h3>Hotel Research Coming Soon</h3>
+                    <p>Researching best areas, hotels, and Airbnb options in Tokyo and beyond.</p>
+                </div>
+            </div>
+            
+            <!-- ITINERARY SECTION -->
+            <div id="itinerary" class="section">
+                <div class="coming-soon">
+                    <div class="icon">📍</div>
+                    <h3>Itinerary Planning Coming Soon</h3>
+                    <p>Day-by-day plans, must-see spots, and activity recommendations.</p>
+                </div>
+            </div>
+            
+            <!-- BUDGET SECTION -->
+            <div id="budget" class="section">
+                <div class="coming-soon">
+                    <div class="icon">💰</div>
+                    <h3>Budget Calculator Coming Soon</h3>
+                    <p>Flight + hotel + food + activities cost breakdown.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
